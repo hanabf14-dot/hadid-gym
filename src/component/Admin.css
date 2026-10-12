@@ -1,0 +1,124 @@
+.admin {
+  min-height: 100vh;
+  padding: 40px 5%;
+  background: var(--noir);
+}
+
+.admin-box {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.admin h1 {
+  margin: 0;
+  font-size: 2rem;
+  text-transform: uppercase;
+}
+
+.admin-count {
+  margin: 6px 0 0;
+  color: #999;
+}
+
+.admin-erreur {
+  margin: 0;
+  color: var(--rouge);
+  font-weight: 700;
+}
+
+/* دخول */
+.login {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 380px;
+  margin: 60px auto;
+  padding: 28px;
+  background: var(--gris);
+  border: 1px solid #2c2c2c;
+  border-top: 3px solid var(--rouge);
+  border-radius: 6px;
+}
+
+.login label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.login input {
+  width: 100%;
+  padding: 12px;
+  background: var(--noir);
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: var(--blanc);
+  font: inherit;
+  font-weight: 400;
+}
+
+.login input:focus {
+  outline: none;
+  border-color: var(--rouge);
+}
+
+.login .btn {
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+/* اللوحة */
+.admin-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.admin-actions .btn {
+  padding: 10px 18px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border-top: 2px solid var(--rouge);
+}
+
+.table-wrap table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+}
+
+.table-wrap th {
+  padding: 14px 12px;
+  color: var(--rouge);
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.table-wrap td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #2c2c2c;
+  vertical-align: top;
+}
+
+.table-wrap tbody tr:hover {
+  background: var(--gris);
+}

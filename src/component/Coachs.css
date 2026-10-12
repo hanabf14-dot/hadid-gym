@@ -1,0 +1,41 @@
+.coachs {
+  padding: 80px 5%;
+  background: var(--gris);
+}
+
+.coachs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.coach-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 20px;
+  border-top: 2px solid var(--rouge);
+}
+
+.avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: var(--rouge);
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+.coach-card h3 {
+  margin: 0 0 4px;
+  font-size: 1.3rem;
+}
+
+.coach-card p {
+  margin: 0;
+  color: #aaa;
+  font-size: 0.92rem;
+}

@@ -1,0 +1,97 @@
+.planning {
+  padding: 80px 5%;
+  background: var(--gris);
+}
+
+.jours {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.jour {
+  padding: 10px 18px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--blanc);
+  font-family: inherit;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.jour:hover {
+  border-color: var(--rouge);
+}
+
+.jour.actif {
+  background: var(--rouge);
+  border-color: var(--rouge);
+}
+
+.liste-cours {
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 2px solid var(--rouge);
+}
+
+.liste-cours li {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 18px 0;
+  border-bottom: 1px solid #2c2c2c;
+}
+
+.heure {
+  color: var(--rouge);
+  font-size: 1.1rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.nom {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.coach {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.badge {
+  padding: 4px 10px;
+  border: 1px solid #444;
+  border-radius: 99px;
+  color: #bbb;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.badge.femmes {
+  border-color: var(--rouge);
+  color: var(--rouge);
+}
+
+.vide {
+  margin-top: 24px;
+  color: #bbb;
+}
+
+@media (max-width: 520px) {
+  .liste-cours li {
+    grid-template-columns: 64px 1fr;
+  }
+
+  .badge {
+    grid-column: 2;
+    justify-self: start;
+  }
+}

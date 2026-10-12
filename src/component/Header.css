@@ -1,0 +1,96 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 5%;
+  background: var(--noir);
+  border-bottom: 3px solid var(--rouge);
+}
+
+.logo {
+  color: var(--blanc);
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-decoration: none;
+}
+
+.logo span {
+  color: var(--rouge);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.nav a {
+  color: var(--blanc);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.nav a:hover {
+  color: var(--rouge);
+}
+
+.nav .btn-cta {
+  background: var(--rouge);
+  padding: 10px 20px;
+  border-radius: 4px;
+}
+
+.nav .btn-cta:hover {
+  background: var(--rouge-fonce);
+  color: var(--blanc);
+}
+
+/* زر القائمة للتيليفون */
+.burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+}
+
+.burger span {
+  width: 26px;
+  height: 3px;
+  background: var(--blanc);
+}
+
+@media (max-width: 768px) {
+  .burger {
+    display: flex;
+  }
+
+  .nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    padding: 20px 5%;
+    background: var(--noir);
+    border-bottom: 3px solid var(--rouge);
+  }
+
+  .nav.open {
+    display: flex;
+  }
+
+  .nav .btn-cta {
+    text-align: center;
+  }
+}
