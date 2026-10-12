@@ -1,93 +1,90 @@
 import { useState } from 'react';
+import { useLang } from '../i18n/LanguageContext';
 import './Planning.css';
 
-const jours = [
-  { id: 'sam', label: 'Samedi' },
-  { id: 'dim', label: 'Dimanche' },
-  { id: 'lun', label: 'Lundi' },
-  { id: 'mar', label: 'Mardi' },
-  { id: 'mer', label: 'Mercredi' },
-  { id: 'jeu', label: 'Jeudi' },
-  { id: 'ven', label: 'Vendredi' },
-];
+const ids = ['sam', 'dim', 'lun', 'mar', 'mer', 'jeu', 'ven'];
 
+// cours: m=Musculation, c=CrossTraining, b=Boxe, y=Yoga, z=Zumba, s=Stretching
+// coach: Y=Yacine, S=Samira, W=Walid
 const cours = {
   sam: [
-    { heure: '07:00', nom: 'Musculation guidée', coach: 'Yacine', femmes: false },
-    { heure: '09:30', nom: 'Yoga', coach: 'Samira', femmes: true },
-    { heure: '18:00', nom: 'Boxe', coach: 'Walid', femmes: false },
-    { heure: '19:30', nom: 'CrossTraining', coach: 'Yacine', femmes: false },
+    { heure: '07:00', cours: 'm', coach: 'Y', femmes: false },
+    { heure: '09:30', cours: 'y', coach: 'S', femmes: true },
+    { heure: '18:00', cours: 'b', coach: 'W', femmes: false },
+    { heure: '19:30', cours: 'c', coach: 'Y', femmes: false },
   ],
   dim: [
-    { heure: '07:00', nom: 'CrossTraining', coach: 'Yacine', femmes: false },
-    { heure: '10:00', nom: 'Zumba', coach: 'Samira', femmes: true },
-    { heure: '17:30', nom: 'Stretching', coach: 'Samira', femmes: false },
-    { heure: '19:00', nom: 'Musculation guidée', coach: 'Yacine', femmes: false },
+    { heure: '07:00', cours: 'c', coach: 'Y', femmes: false },
+    { heure: '10:00', cours: 'z', coach: 'S', femmes: true },
+    { heure: '17:30', cours: 's', coach: 'S', femmes: false },
+    { heure: '19:00', cours: 'm', coach: 'Y', femmes: false },
   ],
   lun: [
-    { heure: '07:00', nom: 'Boxe', coach: 'Walid', femmes: false },
-    { heure: '09:30', nom: 'Zumba', coach: 'Samira', femmes: true },
-    { heure: '18:30', nom: 'Musculation guidée', coach: 'Yacine', femmes: false },
-    { heure: '20:00', nom: 'CrossTraining', coach: 'Yacine', femmes: false },
+    { heure: '07:00', cours: 'b', coach: 'W', femmes: false },
+    { heure: '09:30', cours: 'z', coach: 'S', femmes: true },
+    { heure: '18:30', cours: 'm', coach: 'Y', femmes: false },
+    { heure: '20:00', cours: 'c', coach: 'Y', femmes: false },
   ],
   mar: [
-    { heure: '07:00', nom: 'Musculation guidée', coach: 'Yacine', femmes: false },
-    { heure: '10:00', nom: 'Yoga', coach: 'Samira', femmes: true },
-    { heure: '18:00', nom: 'CrossTraining', coach: 'Yacine', femmes: false },
-    { heure: '19:30', nom: 'Boxe', coach: 'Walid', femmes: false },
+    { heure: '07:00', cours: 'm', coach: 'Y', femmes: false },
+    { heure: '10:00', cours: 'y', coach: 'S', femmes: true },
+    { heure: '18:00', cours: 'c', coach: 'Y', femmes: false },
+    { heure: '19:30', cours: 'b', coach: 'W', femmes: false },
   ],
   mer: [
-    { heure: '07:00', nom: 'CrossTraining', coach: 'Yacine', femmes: false },
-    { heure: '09:30', nom: 'Zumba', coach: 'Samira', femmes: true },
-    { heure: '17:30', nom: 'Stretching', coach: 'Samira', femmes: false },
-    { heure: '19:00', nom: 'Boxe', coach: 'Walid', femmes: false },
+    { heure: '07:00', cours: 'c', coach: 'Y', femmes: false },
+    { heure: '09:30', cours: 'z', coach: 'S', femmes: true },
+    { heure: '17:30', cours: 's', coach: 'S', femmes: false },
+    { heure: '19:00', cours: 'b', coach: 'W', femmes: false },
   ],
   jeu: [
-    { heure: '07:00', nom: 'Musculation guidée', coach: 'Yacine', femmes: false },
-    { heure: '10:00', nom: 'Yoga', coach: 'Samira', femmes: true },
-    { heure: '18:00', nom: 'Boxe', coach: 'Walid', femmes: false },
-    { heure: '19:30', nom: 'Musculation guidée', coach: 'Yacine', femmes: false },
+    { heure: '07:00', cours: 'm', coach: 'Y', femmes: false },
+    { heure: '10:00', cours: 'y', coach: 'S', femmes: true },
+    { heure: '18:00', cours: 'b', coach: 'W', femmes: false },
+    { heure: '19:30', cours: 'm', coach: 'Y', femmes: false },
   ],
   ven: [],
 };
 
 export default function Planning() {
+  const { t } = useLang();
+  const p = t.planning;
   const [jour, setJour] = useState('sam');
   const liste = cours[jour];
 
   return (
     <section className="planning" id="planning">
       <div className="section-inner">
-        <p className="section-tag">Cours collectifs</p>
-        <h2>Planning de la semaine</h2>
+        <p className="section-tag">{p.tag}</p>
+        <h2>{p.titre}</h2>
 
         <div className="jours">
-          {jours.map((j) => (
+          {ids.map((id) => (
             <button
-              key={j.id}
-              className={`jour ${jour === j.id ? 'actif' : ''}`}
-              onClick={() => setJour(j.id)}
+              key={id}
+              className={`jour ${jour === id ? 'actif' : ''}`}
+              onClick={() => setJour(id)}
             >
-              {j.label}
+              {p.jours[id]}
             </button>
           ))}
         </div>
 
         {liste.length === 0 ? (
-          <p className="vide">
-            Vendredi : salle ouverte de 14h à 20h, sans cours collectifs.
-          </p>
+          <p className="vide">{p.vendredi}</p>
         ) : (
           <ul className="liste-cours">
             {liste.map((c) => (
               <li key={c.heure}>
                 <span className="heure">{c.heure}</span>
                 <div>
-                  <span className="nom">{c.nom}</span>
-                  <span className="coach">avec {c.coach}</span>
+                  <span className="nom">{p.cours[c.cours]}</span>
+                  <span className="coach">
+                    {p.avec} {p.coachs[c.coach]}
+                  </span>
                 </div>
                 <span className={`badge ${c.femmes ? 'femmes' : ''}`}>
-                  {c.femmes ? 'Femmes' : 'Mixte'}
+                  {c.femmes ? p.femmes : p.mixte}
                 </span>
               </li>
             ))}

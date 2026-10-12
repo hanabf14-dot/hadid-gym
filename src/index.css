@@ -70,3 +70,15 @@ section h2 {
   line-height: 1;
   text-transform: uppercase;
 }
+/* العربية: ما نفرّقوش الحروف، ونستعملو خط Cairo */
+[dir='rtl'] * {
+  letter-spacing: 0 !important;
+}
+
+[dir='rtl'] body {
+  font-family: 'Cairo', system-ui, sans-serif;
+}
+
+[dir='rtl'] .hero h1 {
+  line-height: 1.25;
+}

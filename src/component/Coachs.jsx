@@ -1,25 +1,23 @@
+import { useLang } from '../i18n/LanguageContext';
 import './Coachs.css';
 
-const coachs = [
-  { id: 1, nom: 'Yacine B.', specialite: 'Musculation · CrossTraining', initiales: 'YB' },
-  { id: 2, nom: 'Samira K.', specialite: 'Yoga · Zumba · Stretching', initiales: 'SK' },
-  { id: 3, nom: 'Walid M.', specialite: 'Boxe · Préparation physique', initiales: 'WM' },
-];
-
 export default function Coachs() {
+  const { t } = useLang();
+  const c = t.coachs;
+
   return (
     <section className="coachs" id="coachs">
       <div className="section-inner">
-        <p className="section-tag">L’équipe</p>
-        <h2>Vos coachs</h2>
+        <p className="section-tag">{c.tag}</p>
+        <h2>{c.titre}</h2>
 
         <div className="coachs-grid">
-          {coachs.map((c) => (
-            <article key={c.id} className="coach-card">
-              <div className="avatar">{c.initiales}</div>
+          {c.liste.map((coach) => (
+            <article key={coach.nom} className="coach-card">
+              <div className="avatar">{coach.initiales}</div>
               <div>
-                <h3>{c.nom}</h3>
-                <p>{c.specialite}</p>
+                <h3>{coach.nom}</h3>
+                <p>{coach.specialite}</p>
               </div>
             </article>
           ))}

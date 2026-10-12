@@ -33,7 +33,7 @@
 .flag {
   position: absolute;
   top: -13px;
-  left: 20px;
+  inset-inline-start: 20px;
   padding: 4px 12px;
   background: var(--rouge);
   border-radius: 3px;
@@ -74,13 +74,13 @@
 
 .plan li {
   position: relative;
-  padding-left: 18px;
+  padding-inline-start: 18px;
 }
 
 .plan li::before {
   content: '';
   position: absolute;
-  left: 0;
+  inset-inline-start: 0;
   top: 0.65em;
   width: 8px;
   height: 2px;

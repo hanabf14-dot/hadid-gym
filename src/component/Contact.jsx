@@ -1,12 +1,17 @@
 import { useState } from 'react';
+import { useLang } from '../i18n/LanguageContext';
 import './Contact.css';
 
 const API_URL = 'http://127.0.0.1:8000/api/demandes';
 const vide = { nom: '', telephone: '', formule: 'essai', message: '' };
+const formules = ['essai', '1', '3', '6', '12'];
 
 export default function Contact() {
+  const { t } = useLang();
+  const c = t.contact;
+
   const [form, setForm] = useState(vide);
-  const [erreur, setErreur] = useState('');
+  const [erreur, setErreur] = useState(''); // مفتاح الرسالة ولا نص جاي من Laravel
   const [envoye, setEnvoye] = useState(false);
   const [chargement, setChargement] = useState(false);
 
@@ -18,7 +23,7 @@ export default function Contact() {
     e.preventDefault();
 
     if (!form.nom.trim() || !form.telephone.trim()) {
-      setErreur('Indiquez votre nom et votre numéro de téléphone.');
+      setErreur('errChamps');
       setEnvoye(false);
       return;
     }
@@ -37,7 +42,6 @@ export default function Contact() {
         body: JSON.stringify(form),
       });
 
-      // 422 = خطأ في البيانات (validation تاع Laravel)
       if (res.status === 422) {
         const data = await res.json();
         setErreur(Object.values(data.errors)[0][0]);
@@ -49,41 +53,44 @@ export default function Contact() {
       setEnvoye(true);
       setForm(vide);
     } catch {
-      setErreur('Impossible d’envoyer la demande. Réessayez plus tard.');
+      setErreur('errReseau');
     } finally {
       setChargement(false);
     }
   };
 
+  // إذا الخطأ مفتاح عندنا نترجموه، وإذا جاي من Laravel نعرضوه كيما هو
+  const texteErreur = c[erreur] ?? erreur;
+
   return (
     <section className="contact" id="contact">
       <div className="section-inner contact-grid">
         <div className="contact-infos">
-          <p className="section-tag">Venir nous voir</p>
-          <h2>Contact</h2>
+          <p className="section-tag">{c.tag}</p>
+          <h2>{c.titre}</h2>
 
           <dl>
-            <dt>Adresse</dt>
-            <dd>12 rue de la Liberté, centre-ville (à remplacer)</dd>
+            <dt>{c.adresse}</dt>
+            <dd>{c.adresseVal}</dd>
 
-            <dt>Téléphone</dt>
+            <dt>{c.telephone}</dt>
             <dd>0550 00 00 00</dd>
 
-            <dt>Horaires</dt>
-            <dd>Samedi – Jeudi : 06h00 – 22h30</dd>
-            <dd>Vendredi : 14h00 – 20h00</dd>
-            <dd>Espace femmes : 09h00 – 12h00 (Sam – Jeu)</dd>
+            <dt>{c.horaires}</dt>
+            <dd>{c.h1}</dd>
+            <dd>{c.h2}</dd>
+            <dd>{c.h3}</dd>
           </dl>
         </div>
 
         <form className="form" onSubmit={handleSubmit} noValidate>
           <label>
-            Nom complet
+            {c.nom}
             <input name="nom" value={form.nom} onChange={handleChange} />
           </label>
 
           <label>
-            Téléphone
+            {c.tel}
             <input
               name="telephone"
               value={form.telephone}
@@ -93,27 +100,27 @@ export default function Contact() {
           </label>
 
           <label>
-            Je suis intéressé(e) par
+            {c.interet}
             <select name="formule" value={form.formule} onChange={handleChange}>
-              <option value="essai">Une séance d’essai gratuite</option>
-              <option value="1">Abonnement 1 mois</option>
-              <option value="3">Abonnement 3 mois</option>
-              <option value="6">Abonnement 6 mois</option>
-              <option value="12">Abonnement 12 mois</option>
+              {formules.map((f) => (
+                <option key={f} value={f}>
+                  {c.options[f]}
+                </option>
+              ))}
             </select>
           </label>
 
           <label>
-            Message (facultatif)
+            {c.message}
             <textarea name="message" value={form.message} onChange={handleChange} />
           </label>
 
           <button type="submit" className="btn btn-red" disabled={chargement}>
-            {chargement ? 'Envoi en cours...' : 'Envoyer ma demande'}
+            {chargement ? c.envoi : c.envoyer}
           </button>
 
-          {erreur && <p className="msg erreur">{erreur}</p>}
-          {envoye && <p className="msg ok">Merci ! Nous vous rappelons très vite.</p>}
+          {texteErreur && <p className="msg erreur">{texteErreur}</p>}
+          {envoye && <p className="msg ok">{c.merci}</p>}
         </form>
       </div>
     </section>
