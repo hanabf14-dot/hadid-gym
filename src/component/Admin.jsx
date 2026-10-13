@@ -16,6 +16,7 @@ export default function Admin() {
   const [token, setToken] = useState(localStorage.getItem('admin_token'));
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [recherche, setRecherche] = useState('');
   const [erreur, setErreur] = useState('');
   const [demandes, setDemandes] = useState([]);
   const [chargement, setChargement] = useState(false);
@@ -85,6 +86,35 @@ export default function Admin() {
     setDemandes([]);
   };
 
+  const headers = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`,
+  };
+
+  // نبدّلو الحالة: Nouveau <-> Contacté
+  const changerStatut = async (d) => {
+    const statut = d.statut === 'contacte' ? 'nouveau' : 'contacte';
+    const res = await fetch(`${API}/demandes/${d.id}`, {
+      method: 'PATCH',
+      headers,
+      body: JSON.stringify({ statut }),
+    });
+    if (res.ok) {
+      setDemandes(demandes.map((x) => (x.id === d.id ? { ...x, statut } : x)));
+    }
+  };
+
+  const supprimer = async (d) => {
+    if (!window.confirm(`Supprimer la demande de ${d.nom} ?`)) return;
+    const res = await fetch(`${API}/demandes/${d.id}`, { method: 'DELETE', headers });
+    if (res.ok) setDemandes(demandes.filter((x) => x.id !== d.id));
+  };
+
+  const filtrees = demandes.filter((d) =>
+    `${d.nom} ${d.telephone}`.toLowerCase().includes(recherche.toLowerCase())
+  );
+
   const formatDate = (iso) =>
     new Date(iso).toLocaleString('fr-FR', {
       timeZone: 'Africa/Algiers',
@@ -146,8 +176,15 @@ export default function Admin() {
         {erreur && <p className="admin-erreur">{erreur}</p>}
         {chargement && <p className="admin-count">Chargement...</p>}
 
-        {!chargement && demandes.length === 0 ? (
-          <p className="admin-count">Aucune demande pour le moment.</p>
+        <input
+          className="recherche"
+          placeholder="Rechercher un nom ou un numéro..."
+          value={recherche}
+          onChange={(e) => setRecherche(e.target.value)}
+        />
+
+        {!chargement && filtrees.length === 0 ? (
+          <p className="admin-count">Aucune demande.</p>
         ) : (
           <div className="table-wrap">
             <table>
@@ -158,16 +195,32 @@ export default function Admin() {
                   <th>Téléphone</th>
                   <th>Formule</th>
                   <th>Message</th>
+                  <th>Statut</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
-                {demandes.map((d) => (
+                {filtrees.map((d) => (
                   <tr key={d.id}>
                     <td>{formatDate(d.created_at)}</td>
                     <td>{d.nom}</td>
                     <td>{d.telephone}</td>
                     <td>{FORMULES[d.formule] ?? d.formule}</td>
                     <td>{d.message || '—'}</td>
+                    <td>
+                      <button
+                        type="button"
+                        className={`statut ${d.statut}`}
+                        onClick={() => changerStatut(d)}
+                      >
+                        {d.statut === 'contacte' ? 'Contacté' : 'Nouveau'}
+                      </button>
+                    </td>
+                    <td>
+                      <button type="button" className="suppr" onClick={() => supprimer(d)}>
+                        Supprimer
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

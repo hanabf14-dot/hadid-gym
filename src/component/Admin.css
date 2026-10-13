@@ -122,3 +122,52 @@
 .table-wrap tbody tr:hover {
   background: var(--gris);
 }
+.recherche {
+  width: 100%;
+  max-width: 360px;
+  margin-bottom: 20px;
+  padding: 11px 12px;
+  background: var(--gris);
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: var(--blanc);
+  font: inherit;
+}
+
+.recherche:focus {
+  outline: none;
+  border-color: var(--rouge);
+}
+
+.statut,
+.suppr {
+  padding: 6px 12px;
+  border-radius: 99px;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.statut.nouveau {
+  background: var(--rouge);
+  border: 1px solid var(--rouge);
+  color: var(--blanc);
+}
+
+.statut.contacte {
+  background: transparent;
+  border: 1px solid #3ecf6e;
+  color: #3ecf6e;
+}
+
+.suppr {
+  background: transparent;
+  border: 1px solid #555;
+  color: #bbb;
+}
+
+.suppr:hover {
+  border-color: var(--rouge);
+  color: var(--rouge);
+}
